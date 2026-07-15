@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
+<title>동현이 수학 오답노트</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --line:#e3e6ea; --ink:#1b1f24; --dim:#6b7480;
+    --accent:#2f6fd0; --accent-soft:#eaf1fc; --ok:#1f9254; --ok-soft:#e8f6ee;
+    --warn:#a86b00; --warn-soft:#fdf3e0; --tag:#eef1f5;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Pretendard","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
+    font-size:16px;line-height:1.65;
+    -webkit-text-size-adjust:100%;}
+  .wrap{max-width:940px;margin:0 auto;padding:24px 18px 80px}
+
+  header h1{margin:0 0 4px;font-size:26px;letter-spacing:-.5px}
+  header p{margin:0;color:var(--dim);font-size:14px}
+
+  .bar{position:sticky;top:0;z-index:5;background:var(--bg);
+    padding:14px 0 12px;margin:18px 0 20px;border-bottom:1px solid var(--line)}
+  .bar-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  #q{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:8px;font-size:15px;background:var(--card);color:var(--ink)}
+  .btn{padding:8px 13px;border:1px solid var(--line);background:var(--card);
+    color:var(--ink);border-radius:8px;cursor:pointer;font-size:14px;font-family:inherit}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .tagbtn{padding:4px 10px;border-radius:999px;border:1px solid var(--line);
+    background:var(--tag);font-size:13px;cursor:pointer;color:var(--dim);font-family:inherit}
+  .tagbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .count{color:var(--dim);font-size:13px;margin-top:10px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:20px 22px;margin-bottom:18px}
+  .card.done{border-color:var(--ok);background:var(--ok-soft)}
+  .head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .num{font-weight:700;font-size:19px;letter-spacing:.5px}
+  .chip{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--tag);color:var(--dim)}
+  .head .sp{flex:1}
+  .chk{font-size:13px;color:var(--dim);display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+
+  .body{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+  .qtext{flex:1;min-width:260px;margin:0;font-size:17px}
+  .fig{flex:0 0 auto;max-width:340px}
+  .fig img{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px}
+
+  .note{margin-top:12px;padding:9px 12px;border-radius:8px;background:var(--warn-soft);
+    color:var(--warn);font-size:13px;border:1px solid #f0dcb4}
+
+  .reveal{margin-top:16px}
+  .sol{margin-top:14px;padding-top:16px;border-top:1px dashed var(--line)}
+  .ans{display:inline-block;background:var(--accent-soft);color:var(--accent);
+    font-weight:700;padding:6px 14px;border-radius:8px;margin-bottom:12px}
+  ol.steps{margin:0;padding-left:22px}
+  ol.steps li{margin-bottom:9px}
+  .key{margin-top:14px;padding:11px 14px;background:var(--accent-soft);
+    border-left:3px solid var(--accent);border-radius:0 8px 8px 0;font-size:15px}
+  .key b{color:var(--accent)}
+
+  /* ── 유사문제 ─────────────────────────────── */
+  .simWrap{margin-top:16px}
+  .sims{margin-top:12px}
+  .sim{border:1px solid var(--line);border-radius:10px;padding:15px 16px;margin-bottom:12px;
+    background:var(--bg)}
+  .sim.right{border-color:var(--ok);background:var(--ok-soft)}
+  .sim.wrong{border-color:#e0a0a0;background:#fdf0f0}
+  .simTop{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+  .simNo{font-weight:700;font-size:14px;color:var(--dim)}
+  .simMark{font-size:15px;font-weight:700}
+  .simMark.o{color:var(--ok)}
+  .simMark.x{color:#c0392b}
+  .simRow{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:12px}
+  .simIn{width:110px;padding:8px 11px;border:1px solid var(--line);border-radius:8px;
+    font-family:inherit;font-size:15px;background:var(--card);color:var(--ink)}
+  .simIn:focus{outline:none;border-color:var(--accent)}
+  .simUnit{font-size:14px;color:var(--dim);margin-left:-2px}
+  .simSol{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:15px}
+  .simSol ol{margin:8px 0 0;padding-left:20px}
+  .simSol li{margin-bottom:7px}
+
+  .memo{margin-top:16px}
+  .memo label{display:block;font-size:13px;color:var(--dim);margin-bottom:6px}
+  .memo textarea{width:100%;min-height:62px;padding:10px 12px;border:1px solid var(--line);
+    border-radius:8px;font-family:inherit;font-size:14px;resize:vertical;
+    background:var(--card);color:var(--ink);line-height:1.55}
+  .memo textarea:focus{outline:none;border-color:var(--accent)}
+  .saved{font-size:12px;color:var(--ok);margin-left:6px}
+
+  .empty{text-align:center;color:var(--dim);padding:60px 0}
+
+  /* ── 모바일 ───────────────────────────────── */
+  @media (max-width:640px){
+    .wrap{padding:16px 12px 56px}
+    header h1{font-size:21px}
+    header p{font-size:13px}
+
+    /* 좁은 화면에선 고정 해제 — 문제 읽을 세로 공간이 우선 */
+    .bar{position:static;padding:10px 0 8px;margin:14px 0 14px}
+    .bar-row{gap:6px}
+    /* 검색창은 한 줄 전체, 16px라야 iOS가 확대 안 함 */
+    #q{flex:1 1 100%;min-width:0;font-size:16px;padding:11px 12px}
+    .btn{flex:1 1 0;font-size:13px;padding:10px 8px;white-space:nowrap}
+    /* 인쇄는 모바일에서 안 씀 */
+    #printQ,#printA{display:none}
+    /* 태그는 줄바꿈 대신 가로 스크롤 */
+    .tags{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+      margin-top:8px;padding-bottom:2px}
+    .tags::-webkit-scrollbar{display:none}
+    .tagbtn{flex:0 0 auto;padding:7px 13px}
+    .count{margin-top:8px;font-size:12px}
+
+    .card{padding:16px 14px;border-radius:10px;margin-bottom:14px}
+    .head{gap:7px;margin-bottom:10px}
+    .num{font-size:18px}
+    .head .sp{flex:1 0 100%;height:0}
+    .body{gap:14px}
+    .qtext{font-size:16px;min-width:0;flex:1 1 100%}
+    .fig{width:100%;margin:0 auto}
+    .memo textarea{font-size:16px}
+    .chk{padding:2px 0}
+    .sim{padding:14px 12px}
+    /* 답 칸도 16px — iOS 확대 방지 */
+    .simIn{font-size:16px;flex:1 1 90px;min-width:0;padding:10px 11px}
+    .simRow .btn{flex:0 0 auto}
+  }
+
+  @media print{
+    :root{--bg:#fff}
+    .bar,.memo,.reveal,.chk,.simRow,.simToggle,.simMark{display:none !important}
+    /* 유사문제는 인쇄에 늘 포함하되, 풀이는 「해설까지」에서만 */
+    .sims{display:block !important}
+    .sim{break-inside:avoid;page-break-inside:avoid;background:#fff !important;
+      border-color:#ccc !important}
+    body.print-q .simSol{display:none !important}
+    body.print-a .simSol{display:block !important}
+    body{font-size:11pt}
+    .wrap{max-width:none;padding:0}
+    .card{break-inside:avoid;page-break-inside:avoid;border:1px solid #ccc;
+      margin-bottom:12px;background:#fff !important}
+    .note{display:none}
+    body.print-q .sol{display:none !important}
+    body.print-a .sol{display:block !important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>동현이 수학 오답노트</h1>
+    <p>문제를 먼저 스스로 풀고 <b>정답 확인</b>을 눌러 비교해 보세요. 메모는 이 브라우저에 자동 저장됩니다.</p>
+  </header>
+
+  <div class="bar">
+    <div class="bar-row">
+      <input id="q" type="search" placeholder="문제 내용, 번호, 태그로 검색">
+      <button class="btn" id="toggleAll">해설 모두 펼치기</button>
+      <button class="btn" id="hideDone">복습 완료 숨기기</button>
+      <button class="btn" id="printQ">🖨 문제만</button>
+      <button class="btn" id="printA">🖨 해설까지</button>
+    </div>
+    <div class="tags" id="tagbar"></div>
+    <div class="count" id="count"></div>
+  </div>
+
+  <main id="list"></main>
+</div>
+
+<script>
+const DATA = [{"id": "V0399", "출처": "0399 변형 (자작 · 그림 재작도)", "날짜": "2026-07-14", "태그": ["평면도형", "닮음", "넓이"], "문제": "직사각형 ABCD가 있다. 변 AD 위에 점 E를, 변 DC 위에 점 F를 잡았더니 선분 EF가 대각선 AC와 평행해졌다. DF:FC = 3:5이고 직사각형 ABCD의 넓이가 112 cm²일 때, 삼각형 ABE의 넓이를 구하여라.", "그림": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDQgNDIwIiB3aWR0aD0iNjQ0IiBoZWlnaHQ9IjQyMCI+DQogIDx0aXRsZT7sp4HsgqzqsIHtmJUgQUJDRCwgQUQg7JyE7J2YIOygkCBF7JmAIERDIOychOydmCDsoJAgRiAoQUPiiKVFRiwgREY6RkM9Mzo1KTwvdGl0bGU+DQogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFiMWYyNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiPg0KICAgIDxwb2x5Z29uIHBvaW50cz0iMTMwLDkwIDEzMCwzMzAgMzcwLDkwIiBmaWxsPSIjZTliOGNkIiBmaWxsLW9wYWNpdHk9IjAuNSIgc3Ryb2tlPSJub25lIi8+DQogICAgPHJlY3QgeD0iMTMwIiB5PSI5MCIgd2lkdGg9IjM4NCIgaGVpZ2h0PSIyNDAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iOTAiIHgyPSI1MTQiIHkyPSIzMzAiLz4NCiAgICA8bGluZSB4MT0iMzcwIiB5MT0iOTAiIHgyPSI1MTQiIHkyPSIxODAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iMzMwIiB4Mj0iMzcwIiB5Mj0iOTAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iMzMwIiB4Mj0iNTE0IiB5Mj0iMTgwIi8+DQogIDwvZz4NCiAgPGcgZmlsbD0iIzFiMWYyNCI+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwLC00LjUgOCwwIDAsNC41IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMjIsMjEwKSByb3RhdGUoMzIuMDEpIi8+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwLC00LjUgOCwwIDAsNC41IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NDIsMTM1KSByb3RhdGUoMzIuMDEpIi8+DQogICAgPGNpcmNsZSBjeD0iMzcwIiBjeT0iOTAiIHI9IjMuMiIvPg0KICAgIDxjaXJjbGUgY3g9IjUxNCIgY3k9IjE4MCIgcj0iMy4yIi8+DQogIDwvZz4NCiAgPGcgZmlsbD0iIzFiMWYyNCIgZm9udC1mYW1pbHk9IlRpbWVzIE5ldyBSb21hbiwgc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtc3R5bGU9Iml0YWxpYyI+DQogICAgPHRleHQgeD0iMTE4IiB5PSI4MCIgdGV4dC1hbmNob3I9ImVuZCI+QTwvdGV4dD4NCiAgICA8dGV4dCB4PSI1MjYiIHk9IjgwIj5EPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjExOCIgeT0iMzQ2IiB0ZXh0LWFuY2hvcj0iZW5kIj5CPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjUyNiIgeT0iMzQ2Ij5DPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjM3MCIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkU8L3RleHQ+DQogICAgPHRleHQgeD0iNTI4IiB5PSIxODYiPkY8L3RleHQ+DQogIDwvZz4NCjwvc3ZnPg0K", "정답": "35 cm²", "풀이": ["EF와 AC가 평행하니까 △DEF와 △DAC는 닮은 삼각형이야. (∠D는 공통이고, 평행선이라 ∠DEF=∠DAC로 같으니까 AA 닮음)", "닮은 도형은 대응하는 변의 비가 같아. 그러니까 DE:DA = DF:DC 가 성립해.", "DF:FC = 3:5 니까 DC 전체를 3+5=8로 보면 DF:DC = 3:8 이야.", "그럼 DE:DA = 3:8. 그런데 우리가 필요한 건 DE가 아니라 AE야. AE = DA - DE 니까 AE는 DA의 5/8 이 돼.", "△ABE는 밑변 AE, 높이 AB인 직각삼각형이야. 그러니까 △ABE = ½ × AE × AB = ½ × (5/8 × AD) × AB.", "여기서 AD × AB는 따로 구할 필요가 없어. 그게 바로 직사각형 ABCD의 넓이 112거든. 그래서 △ABE = ½ × 5/8 × 112 = 35 (cm²)."], "핵심": "평행선이 보이면 닮은 삼각형부터 찾아 변의 비로 옮긴다. 그리고 DE와 AE를 헷갈리지 말 것 — 닮음비로 나오는 건 DE 쪽이라 한 번 빼줘야 AE가 된다. 마지막으로 가로·세로를 각각 구하려 들지 말고 직사각형 넓이를 통째로 대입한다.", "유사문제": [{"문제": "직사각형 ABCD의 변 AD 위에 점 E, 변 DC 위에 점 F가 있고 EF∥AC이다. DF:FC = 2:3이고 직사각형 ABCD의 넓이가 90 cm²일 때, 삼각형 ABE의 넓이를 구하여라.", "그림": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDIwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjQyMCI+DQogIDx0aXRsZT7sp4HsgqzqsIHtmJUgQUJDRCwgQUQg7JyE7J2YIOygkCBF7JmAIERDIOychOydmCDsoJAgRiAoQUPiiKVFRiwgREY6RkM9MjozKTwvdGl0bGU+DQogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFiMWYyNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiPg0KICAgIDxwb2x5Z29uIHBvaW50cz0iMTMwLDkwIDEzMCwzMzAgMzU4LDkwIiBmaWxsPSIjZTliOGNkIiBmaWxsLW9wYWNpdHk9IjAuNSIgc3Ryb2tlPSJub25lIi8+DQogICAgPHJlY3QgeD0iMTMwIiB5PSI5MCIgd2lkdGg9IjM4MCIgaGVpZ2h0PSIyNDAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iOTAiIHgyPSI1MTAiIHkyPSIzMzAiLz4NCiAgICA8bGluZSB4MT0iMzU4IiB5MT0iOTAiIHgyPSI1MTAiIHkyPSIxODYiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iMzMwIiB4Mj0iMzU4IiB5Mj0iOTAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iMzMwIiB4Mj0iNTEwIiB5Mj0iMTg2Ii8+DQogIDwvZz4NCiAgPGcgZmlsbD0iIzFiMWYyNCI+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwLC00LjUgOCwwIDAsNC41IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMjAsMjEwKSByb3RhdGUoMzIuMjgpIi8+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwLC00LjUgOCwwIDAsNC41IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MzQsMTM4KSByb3RhdGUoMzIuMjgpIi8+DQogICAgPGNpcmNsZSBjeD0iMzU4IiBjeT0iOTAiIHI9IjMuMiIvPg0KICAgIDxjaXJjbGUgY3g9IjUxMCIgY3k9IjE4NiIgcj0iMy4yIi8+DQogIDwvZz4NCiAgPGcgZmlsbD0iIzFiMWYyNCIgZm9udC1mYW1pbHk9IlRpbWVzIE5ldyBSb21hbiwgc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtc3R5bGU9Iml0YWxpYyI+DQogICAgPHRleHQgeD0iMTE4IiB5PSI4MCIgdGV4dC1hbmNob3I9ImVuZCI+QTwvdGV4dD4NCiAgICA8dGV4dCB4PSI1MjIiIHk9IjgwIj5EPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjExOCIgeT0iMzQ2IiB0ZXh0LWFuY2hvcj0iZW5kIj5CPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjUyMiIgeT0iMzQ2Ij5DPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjM1OCIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkU8L3RleHQ+DQogICAgPHRleHQgeD0iNTI0IiB5PSIxOTIiPkY8L3RleHQ+DQogIDwvZz4NCjwvc3ZnPg0K", "정답": 27, "단위": "cm²", "풀이": ["DF:FC = 2:3 이니까 DC를 2+3=5로 보면 DF:DC = 2:5.", "EF∥AC 라서 DE:DA = DF:DC = 2:5. 그러니까 AE는 DA의 3/5.", "△ABE = ½ × AE × AB = ½ × 3/5 × (AD × AB) = ½ × 3/5 × 90 = 27 (cm²)."]}, {"문제": "직사각형 ABCD의 변 AD 위에 점 E, 변 DC 위에 점 F가 있고 EF∥AC이다. DF:FC = 5:7이고 직사각형 ABCD의 넓이가 96 cm²일 때, 삼각형 ABE의 넓이를 구하여라.", "그림": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDQgNDIwIiB3aWR0aD0iNjQ0IiBoZWlnaHQ9IjQyMCI+DQogIDx0aXRsZT7sp4HsgqzqsIHtmJUgQUJDRCwgQUQg7JyE7J2YIOygkCBF7JmAIERDIOychOydmCDsoJAgRiAoQUPiiKVFRiwgREY6RkM9NTo3KTwvdGl0bGU+DQogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFiMWYyNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiPg0KICAgIDxwb2x5Z29uIHBvaW50cz0iMTMwLDkwIDEzMCwzMzAgMzU0LDkwIiBmaWxsPSIjZTliOGNkIiBmaWxsLW9wYWNpdHk9IjAuNSIgc3Ryb2tlPSJub25lIi8+DQogICAgPHJlY3QgeD0iMTMwIiB5PSI5MCIgd2lkdGg9IjM4NCIgaGVpZ2h0PSIyNDAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iOTAiIHgyPSI1MTQiIHkyPSIzMzAiLz4NCiAgICA8bGluZSB4MT0iMzU0IiB5MT0iOTAiIHgyPSI1MTQiIHkyPSIxOTAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iMzMwIiB4Mj0iMzU0IiB5Mj0iOTAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iMzMwIiB4Mj0iNTE0IiB5Mj0iMTkwIi8+DQogIDwvZz4NCiAgPGcgZmlsbD0iIzFiMWYyNCI+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwLC00LjUgOCwwIDAsNC41IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMjIsMjEwKSByb3RhdGUoMzIuMDEpIi8+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwLC00LjUgOCwwIDAsNC41IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MzQsMTQwKSByb3RhdGUoMzIuMDEpIi8+DQogICAgPGNpcmNsZSBjeD0iMzU0IiBjeT0iOTAiIHI9IjMuMiIvPg0KICAgIDxjaXJjbGUgY3g9IjUxNCIgY3k9IjE5MCIgcj0iMy4yIi8+DQogIDwvZz4NCiAgPGcgZmlsbD0iIzFiMWYyNCIgZm9udC1mYW1pbHk9IlRpbWVzIE5ldyBSb21hbiwgc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtc3R5bGU9Iml0YWxpYyI+DQogICAgPHRleHQgeD0iMTE4IiB5PSI4MCIgdGV4dC1hbmNob3I9ImVuZCI+QTwvdGV4dD4NCiAgICA8dGV4dCB4PSI1MjYiIHk9IjgwIj5EPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjExOCIgeT0iMzQ2IiB0ZXh0LWFuY2hvcj0iZW5kIj5CPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjUyNiIgeT0iMzQ2Ij5DPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjM1NCIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkU8L3RleHQ+DQogICAgPHRleHQgeD0iNTI4IiB5PSIxOTYiPkY8L3RleHQ+DQogIDwvZz4NCjwvc3ZnPg0K", "정답": 28, "단위": "cm²", "풀이": ["DF:FC = 5:7 이니까 DC를 5+7=12로 보면 DF:DC = 5:12.", "EF∥AC 라서 DE:DA = 5:12. 그러니까 AE는 DA의 7/12.", "△ABE = ½ × 7/12 × 96 = 28 (cm²).", "비가 지저분해 보여도 방법은 똑같아. 겁먹지 말고 DC를 (앞+뒤)로 놓는 것부터 하면 돼."]}, {"문제": "직사각형 ABCD의 변 AD 위에 점 E, 변 DC 위에 점 F가 있고 EF∥AC이다. DF:FC = 3:7이고 삼각형 ABE의 넓이가 42 cm²일 때, 직사각형 ABCD의 넓이를 구하여라.", "그림": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDIwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjQyMCI+DQogIDx0aXRsZT7sp4HsgqzqsIHtmJUgQUJDRCwgQUQg7JyE7J2YIOygkCBF7JmAIERDIOychOydmCDsoJAgRiAoQUPiiKVFRiwgREY6RkM9Mzo3KTwvdGl0bGU+DQogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFiMWYyNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiPg0KICAgIDxwb2x5Z29uIHBvaW50cz0iMTMwLDkwIDEzMCwzMzAgMzk2LDkwIiBmaWxsPSIjZTliOGNkIiBmaWxsLW9wYWNpdHk9IjAuNSIgc3Ryb2tlPSJub25lIi8+DQogICAgPHJlY3QgeD0iMTMwIiB5PSI5MCIgd2lkdGg9IjM4MCIgaGVpZ2h0PSIyNDAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iOTAiIHgyPSI1MTAiIHkyPSIzMzAiLz4NCiAgICA8bGluZSB4MT0iMzk2IiB5MT0iOTAiIHgyPSI1MTAiIHkyPSIxNjIiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iMzMwIiB4Mj0iMzk2IiB5Mj0iOTAiLz4NCiAgICA8bGluZSB4MT0iMTMwIiB5MT0iMzMwIiB4Mj0iNTEwIiB5Mj0iMTYyIi8+DQogIDwvZz4NCiAgPGcgZmlsbD0iIzFiMWYyNCI+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwLC00LjUgOCwwIDAsNC41IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMjAsMjEwKSByb3RhdGUoMzIuMjgpIi8+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwLC00LjUgOCwwIDAsNC41IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NTMsMTI2KSByb3RhdGUoMzIuMjgpIi8+DQogICAgPGNpcmNsZSBjeD0iMzk2IiBjeT0iOTAiIHI9IjMuMiIvPg0KICAgIDxjaXJjbGUgY3g9IjUxMCIgY3k9IjE2MiIgcj0iMy4yIi8+DQogIDwvZz4NCiAgPGcgZmlsbD0iIzFiMWYyNCIgZm9udC1mYW1pbHk9IlRpbWVzIE5ldyBSb21hbiwgc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtc3R5bGU9Iml0YWxpYyI+DQogICAgPHRleHQgeD0iMTE4IiB5PSI4MCIgdGV4dC1hbmNob3I9ImVuZCI+QTwvdGV4dD4NCiAgICA8dGV4dCB4PSI1MjIiIHk9IjgwIj5EPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjExOCIgeT0iMzQ2IiB0ZXh0LWFuY2hvcj0iZW5kIj5CPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjUyMiIgeT0iMzQ2Ij5DPC90ZXh0Pg0KICAgIDx0ZXh0IHg9IjM5NiIgeT0iNzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkU8L3RleHQ+DQogICAgPHRleHQgeD0iNTI0IiB5PSIxNjgiPkY8L3RleHQ+DQogIDwvZz4NCjwvc3ZnPg0K", "정답": 120, "단위": "cm²", "풀이": ["이번엔 거꾸로 묻고 있어. 구하는 게 직사각형 넓이야. 그래도 세우는 식은 똑같아.", "DF:FC = 3:7 이니까 DF:DC = 3:10, 따라서 DE:DA = 3:10 이고 AE는 DA의 7/10.", "직사각형 넓이를 S라 하면 △ABE = ½ × 7/10 × S. 이게 42라는 뜻이야.", "½ × 7/10 × S = 42 → (7/20)S = 42 → S = 42 × 20/7 = 120 (cm²).", "이런 역방향 문제는 '구하는 걸 S로 놓고 식을 똑같이 세운 다음 푼다'가 정석이야."]}]}];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const K = {
+  memo: id => 'odn_memo_' + id,
+  done: id => 'odn_done_' + id,
+  sim: (id, i) => 'odn_sim_' + id + '_' + i,
+};
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+let activeTags = new Set();
+let query = '';
+let hideDone = false;
+let allOpen = false;
+
+function cardHTML(p){
+  const done = store.get(K.done(p.id), false);
+  const memo = store.get(K.memo(p.id), '');
+  const tags = (p['태그'] || []).map(t => `<span class="chip">${esc(t)}</span>`).join('');
+  const fig = p['그림'] ? `<div class="fig"><img src="${p['그림']}" alt="${esc(p.id)}번 문제 그림"></div>` : '';
+  const note = p['확인필요'] ? `<div class="note">⚠ ${esc(p['확인필요'])}</div>` : '';
+  const steps = (p['풀이'] || []).map(s => `<li>${esc(s)}</li>`).join('');
+  const key = p['핵심'] ? `<div class="key"><b>기억할 것 —</b> ${esc(p['핵심'])}</div>` : '';
+  const sims = simHTML(p);
+
+  return `
+  <article class="card${done ? ' done' : ''}" data-id="${esc(p.id)}">
+    <div class="head">
+      <span class="num">${esc(p.id)}</span>
+      ${tags}
+      <span class="sp"></span>
+      <label class="chk"><input type="checkbox" class="doneBox" ${done ? 'checked' : ''}> 복습 완료</label>
+    </div>
+    <div class="body">
+      <p class="qtext">${esc(p['문제'])}</p>
+      ${fig}
+    </div>
+    ${note}
+    <div class="reveal"><button class="btn revealBtn">정답 확인</button></div>
+    <div class="sol" hidden>
+      <div class="ans">정답 &nbsp;${esc(p['정답'])}</div>
+      <ol class="steps">${steps}</ol>
+      ${key}
+    </div>
+    ${sims}
+    <div class="memo">
+      <label>왜 틀렸을까? <span class="savedSlot"></span></label>
+      <textarea class="memoBox" placeholder="예: 닮음비를 DE:EA로 착각했다">${esc(memo)}</textarea>
+    </div>
+  </article>`;
+}
+
+/* ── 유사문제 ─────────────────────────────────── */
+
+// "35", "35cm²", "35 cm2", "70/2" 모두 35로 읽는다
+function parseAnswer(raw){
+  let s = String(raw).trim().replace(/\s+/g, '');
+  if (!s) return null;
+  s = s.replace(/cm\^?2|cm²|㎠|cm/gi, '');
+  const frac = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if (frac){
+    const den = parseFloat(frac[2]);
+    return den === 0 ? null : parseFloat(frac[1]) / den;
+  }
+  return /^-?\d+(\.\d+)?$/.test(s) ? parseFloat(s) : null;
+}
+
+function simHTML(p){
+  const list = p['유사문제'] || [];
+  if (!list.length) return '';
+  const solved = list.filter((_, i) => store.get(K.sim(p.id, i), {}).ok).length;
+
+  const body = list.map((s, i) => {
+    const st = store.get(K.sim(p.id, i), {});
+    const cls = st.ok ? ' right' : (st.tries ? ' wrong' : '');
+    const mark = st.ok ? '<span class="simMark o">⭕ 맞았어</span>'
+      : (st.tries ? `<span class="simMark x">❌ ${st.tries}번 틀림</span>` : '');
+    const fig = s['그림'] ? `<div class="fig"><img src="${s['그림']}" alt="유사문제 ${i + 1} 그림"></div>` : '';
+    const steps = (s['풀이'] || []).map(x => `<li>${esc(x)}</li>`).join('');
+    return `
+    <div class="sim${cls}" data-i="${i}">
+      <div class="simTop"><span class="simNo">유사문제 ${i + 1}</span>${mark}</div>
+      <div class="body">
+        <p class="qtext">${esc(s['문제'])}</p>
+        ${fig}
+      </div>
+      <div class="simRow">
+        <input class="simIn" inputmode="decimal" placeholder="답" value="${st.last != null ? esc(st.last) : ''}">
+        <span class="simUnit">${esc(s['단위'] || '')}</span>
+        <button class="btn simCheck">확인</button>
+        <button class="btn simSolBtn">풀이 보기</button>
+      </div>
+      <div class="simSol" ${st.ok || st.tries ? '' : 'hidden'}>
+        <div class="ans">정답 &nbsp;${esc(s['정답'])} ${esc(s['단위'] || '')}</div>
+        <ol>${steps}</ol>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="simWrap">
+    <button class="btn simToggle">🔄 유사문제로 재도전 (${solved}/${list.length} 맞음)</button>
+    <div class="sims" hidden>${body}</div>
+  </div>`;
+}
+
+function match(p){
+  if (hideDone && store.get(K.done(p.id), false)) return false;
+  for (const t of activeTags) if (!(p['태그'] || []).includes(t)) return false;
+  if (!query) return true;
+  const hay = [p.id, p['문제'], p['정답'], (p['태그'] || []).join(' '), (p['풀이'] || []).join(' '),
+    (p['유사문제'] || []).map(s => s['문제']).join(' ')].join(' ').toLowerCase();
+  return hay.includes(query);
+}
+
+function render(){
+  const rows = DATA.filter(match);
+  $('#list').innerHTML = rows.length
+    ? rows.map(cardHTML).join('')
+    : '<div class="empty">조건에 맞는 문제가 없어요.</div>';
+  const total = DATA.length;
+  const doneN = DATA.filter(p => store.get(K.done(p.id), false)).length;
+  $('#count').textContent = `${rows.length}문항 표시 · 전체 ${total}문항 · 복습 완료 ${doneN}문항`;
+  if (allOpen) document.querySelectorAll('.sol').forEach(s => { s.hidden = false; });
+}
+
+function buildTagbar(){
+  const set = new Set();
+  DATA.forEach(p => (p['태그'] || []).forEach(t => set.add(t)));
+  $('#tagbar').innerHTML = [...set]
+    .map(t => `<button class="tagbtn" data-tag="${esc(t)}">${esc(t)}</button>`).join('');
+}
+
+document.addEventListener('click', e => {
+  const rv = e.target.closest('.revealBtn');
+  if (rv){
+    const sol = rv.closest('.card').querySelector('.sol');
+    sol.hidden = !sol.hidden;
+    rv.textContent = sol.hidden ? '정답 확인' : '해설 접기';
+    return;
+  }
+  const st = e.target.closest('.simToggle');
+  if (st){
+    const box = st.closest('.simWrap').querySelector('.sims');
+    box.hidden = !box.hidden;
+    return;
+  }
+  const ss = e.target.closest('.simSolBtn');
+  if (ss){
+    const sol = ss.closest('.sim').querySelector('.simSol');
+    sol.hidden = !sol.hidden;
+    ss.textContent = sol.hidden ? '풀이 보기' : '풀이 접기';
+    return;
+  }
+  const sc = e.target.closest('.simCheck');
+  if (sc){ gradeSim(sc.closest('.sim')); return; }
+
+  const tb = e.target.closest('.tagbtn');
+  if (tb){
+    const t = tb.dataset.tag;
+    activeTags.has(t) ? activeTags.delete(t) : activeTags.add(t);
+    tb.classList.toggle('on');
+    render();
+  }
+});
+
+document.addEventListener('change', e => {
+  const box = e.target.closest('.doneBox');
+  if (!box) return;
+  const card = box.closest('.card');
+  store.set(K.done(card.dataset.id), box.checked);
+  card.classList.toggle('done', box.checked);
+  render();
+});
+
+function gradeSim(el){
+  const card = el.closest('.card');
+  const pid = card.dataset.id;
+  const i = +el.dataset.i;
+  const p = DATA.find(x => String(x.id) === pid);
+  const s = p['유사문제'][i];
+  const input = el.querySelector('.simIn');
+
+  const val = parseAnswer(input.value);
+  if (val === null){
+    input.focus();
+    el.querySelector('.simTop').insertAdjacentHTML('beforeend',
+      '<span class="simMark x">숫자를 입력해줘</span>');
+    setTimeout(() => { const m = el.querySelector('.simMark.x'); if (m) m.remove(); }, 1500);
+    return;
+  }
+
+  const prev = store.get(K.sim(pid, i), {});
+  const ok = Math.abs(val - parseAnswer(s['정답'])) < 1e-6;
+  store.set(K.sim(pid, i), {
+    ok,
+    tries: ok ? (prev.tries || 0) : (prev.tries || 0) + 1,
+    last: input.value.trim(),
+  });
+  // 틀리면 풀이를 바로 펼쳐서 확인하게 한다
+  render();
+  const fresh = document.querySelector(`.card[data-id="${pid}"] .sim[data-i="${i}"]`);
+  if (fresh){
+    fresh.closest('.simWrap').querySelector('.sims').hidden = false;
+    fresh.querySelector('.simSol').hidden = false;
+    fresh.scrollIntoView({block: 'nearest'});
+  }
+}
+
+let timer;
+document.addEventListener('input', e => {
+  const m = e.target.closest('.memoBox');
+  if (!m) return;
+  const card = m.closest('.card');
+  clearTimeout(timer);
+  timer = setTimeout(() => {
+    store.set(K.memo(card.dataset.id), m.value);
+    const slot = card.querySelector('.savedSlot');
+    slot.innerHTML = '<span class="saved">저장됨</span>';
+    setTimeout(() => { slot.innerHTML = ''; }, 1200);
+  }, 400);
+});
+
+// 답 칸에서 Enter = 확인
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.classList.contains('simIn')){
+    e.preventDefault();
+    gradeSim(e.target.closest('.sim'));
+  }
+});
+
+$('#q').addEventListener('input', e => { query = e.target.value.trim().toLowerCase(); render(); });
+
+$('#toggleAll').addEventListener('click', e => {
+  allOpen = !allOpen;
+  e.target.classList.toggle('on', allOpen);
+  e.target.textContent = allOpen ? '해설 모두 접기' : '해설 모두 펼치기';
+  document.querySelectorAll('.sol').forEach(s => { s.hidden = !allOpen; });
+  document.querySelectorAll('.revealBtn').forEach(b => { b.textContent = allOpen ? '해설 접기' : '정답 확인'; });
+});
+
+$('#hideDone').addEventListener('click', e => {
+  hideDone = !hideDone;
+  e.target.classList.toggle('on', hideDone);
+  e.target.textContent = hideDone ? '완료 문항 보이기' : '복습 완료 숨기기';
+  render();
+});
+
+function printAs(cls){
+  document.body.classList.add(cls);
+  const done = () => { document.body.classList.remove(cls); window.removeEventListener('afterprint', done); };
+  window.addEventListener('afterprint', done);
+  window.print();
+}
+$('#printQ').addEventListener('click', () => printAs('print-q'));
+$('#printA').addEventListener('click', () => printAs('print-a'));
+
+buildTagbar();
+render();
+</script>
+</body>
+</html>
