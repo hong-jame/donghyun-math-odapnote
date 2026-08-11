@@ -236,6 +236,7 @@ function cardHTML(p){
 function parseAnswer(raw){
   let s = String(raw).trim().replace(/\s+/g, '');
   if (!s) return null;
+  s = s.replace(/[①②③④⑤⑥⑦⑧⑨]/g, m => String('①②③④⑤⑥⑦⑧⑨'.indexOf(m) + 1));  // 객관식 번호
   s = s.replace(/cm\^?2|cm²|㎠|cm/gi, '').replace(/가지|개|원|명|m$/g, '');
   const frac = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
   if (frac){
